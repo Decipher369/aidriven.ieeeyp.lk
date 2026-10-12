@@ -2,10 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Poppins } from "next/font/google";
 import "./globals.css";
 
-import LenisWrapper from "@/components/LenisWrapper";
-import { ConditionalHeader, ConditionalFooter } from "@/components/ConditionalElements";
+import SiteShell from "@/components/SiteShell";
 import { ElementalEnd, FZY } from "@/fonts";
-import BackgroundWrapper from "@/components/common/BgWrapper";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -42,13 +40,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} ${ElementalEnd.variable} ${FZY.variable} ${poppins.variable} relative antialiased`}
         suppressHydrationWarning
       >
-        <ConditionalHeader />
-        <LenisWrapper>
-          <BackgroundWrapper>
-            {children}
-          </BackgroundWrapper>
-          <ConditionalFooter />
-        </LenisWrapper>
+        <SiteShell>{children}</SiteShell>
       </body>
     </html>
   );

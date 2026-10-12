@@ -1,0 +1,8 @@
+{
+  "compilerOptions": { "strict": true },
+  "imports": {
+    "@supabase/supabase-js": "npm:@supabase/supabase-js@2.117.2",
+    "zod": "npm:zod@4.1.13",
+    "qrcode": "npm:qrcode@1.5.4"
+  }
+}

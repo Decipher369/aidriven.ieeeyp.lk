@@ -1,44 +1,23 @@
-name: Deploy to GitHub Pages
-
+name: Validate Next.js
 on:
   push:
-    branches:
-      - main # or your default branch
-
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
 permissions:
-  contents: write
-
+  contents: read
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
-    env:
-      DEPLOY_ENV: GH_PAGES
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
         with:
-          node-version: 18
-
-      - name: Setup pnpm
-        run: corepack enable
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Show DEPLOY_ENV
-        run: echo "DEPLOY_ENV=$DEPLOY_ENV"
-
-      - name: Build (Static Export)
-        run: pnpm build
-
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
+          version: 10.10.0
+      - uses: actions/setup-node@v4
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
-          publish_branch: gh-pages
-          enable_jekyll: false
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm lint:registration
+      - run: pnpm build

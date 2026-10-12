@@ -1,0 +1,61 @@
+project_id = "aidriven-registration"
+
+[api]
+enabled = true
+port = 54321
+schemas = ["public", "graphql_public"]
+extra_search_path = ["public", "extensions"]
+max_rows = 1000
+
+[db]
+port = 54322
+shadow_port = 54320
+major_version = 17
+
+[db.seed]
+enabled = true
+sql_paths = ["./seed.sql"]
+
+[studio]
+enabled = true
+port = 54323
+api_url = "http://127.0.0.1"
+
+[inbucket]
+enabled = true
+port = 54324
+
+[storage]
+enabled = true
+file_size_limit = "1MiB"
+
+[auth]
+enabled = true
+site_url = "http://localhost:3000"
+additional_redirect_urls = ["http://localhost:3000/set-password", "http://localhost:3000/reset-password", "http://localhost:3100/set-password", "http://localhost:3100/reset-password"]
+jwt_expiry = 3600
+enable_signup = false
+minimum_password_length = 8
+
+[auth.email]
+enable_signup = false
+enable_confirmations = true
+
+[auth.email.template.invite]
+subject = "Set up your AIDSL 2026 delegate portal"
+content_path = "./supabase/templates/invite.html"
+
+[functions.register-delegate]
+verify_jwt = false
+import_map = "./functions/deno.json"
+entrypoint = "./functions/register-delegate/index.ts"
+
+[functions.send-email]
+verify_jwt = false
+import_map = "./functions/deno.json"
+entrypoint = "./functions/send-email/index.ts"
+
+[functions.event-reminder]
+verify_jwt = false
+import_map = "./functions/deno.json"
+entrypoint = "./functions/event-reminder/index.ts"
